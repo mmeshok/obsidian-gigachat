@@ -1,20 +1,25 @@
+import { GigachatClient } from 'data/gigachat_client';
 import { PluginSettingsRepository } from 'data/settings_repository';
 import { Editor, MarkdownView, Notice, Plugin } from 'obsidian';
+import { ChatModal } from 'ui/chat_modal';
 import { SampleModal } from 'ui/sample_modal';
 import { SettingsTab } from 'ui/settings_tab';
 
 const DEFAULT_SETTINGS: PluginSettingsRepository = {
-	apiToken: ''
+	apiToken: '',
+	backendHost: 'http://0.0.0.0:8080',
 }
 
 export default class GigachatPlugin extends Plugin {
 	settings: PluginSettingsRepository;
+	client: GigachatClient;
 
 	async onload() {
 		await this.initSettings()
 		this.initRibbonActions()
 		this.initStatusBar()
 		this.initCommands()
+		await this.initGigachatClient()
 	}
 
 	onunload() {
@@ -41,13 +46,22 @@ export default class GigachatPlugin extends Plugin {
 		statusBarItemEl.setText('Gigachat is running');
 	}
 
+	async initGigachatClient() {
+		this.client = new GigachatClient(this.settings);
+		const status = await this.client.healthCheckRequest();
+		if (status == 200) {
+			new Notice('Gigachat Server is running')
+		} else {
+			new Notice('Gigachat Server is shutdown (')
+		}
+	}
+
 	initCommands() {
-		// This adds a simple command that can be triggered anywhere
 		this.addCommand({
-			id: 'open-sample-modal-simple',
-			name: 'Open sample modal (simple)',
+			id: 'open-gigachat-chat',
+			name: 'Open Gigachat Assistant Chat',
 			callback: () => {
-				new SampleModal(this.app).open();
+				new ChatModal(this.app, this.client).open();
 			}
 		});
 

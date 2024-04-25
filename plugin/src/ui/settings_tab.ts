@@ -25,5 +25,14 @@ export class SettingsTab extends PluginSettingTab {
 					this.plugin.settings.apiToken = value;
 					await this.plugin.saveSettings();
 				}));
+		new Setting(containerEl)
+			.setName('Backend host address')
+			.addText(text => text
+				.setPlaceholder('Enter host address')
+				.setValue(this.plugin.settings.backendHost)
+				.onChange(async (value) => {
+					this.plugin.settings.backendHost = value;
+					await this.plugin.saveSettings();
+				}));
 	}
 }
