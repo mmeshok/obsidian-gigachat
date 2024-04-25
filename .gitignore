@@ -1,5 +1,7 @@
-**.venv
-**/__pycache__
-**/.vscode
+.venv
+__pycache__
+.vscode
 .env
 .DS_Store
+.ipynb_checkpoints
+build
