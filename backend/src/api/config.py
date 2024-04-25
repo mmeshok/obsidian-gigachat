@@ -2,3 +2,4 @@ import os
 
 class Config:
     GIGACHAT_CREDENTIONALS = os.getenv('GIGACHAT_CREDENTIONALS')
+    GOOGLE_SERPER_API_KEY = os.getenv('GOOGLE_SERPER_API_KEY')
