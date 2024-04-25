@@ -2,16 +2,19 @@ from langchain.schema import HumanMessage, SystemMessage
 from langchain.chat_models.gigachat import GigaChat
 from fastapi import FastAPI
 from dotenv import load_dotenv
-from schema import UserInput, Response
+import os
+
+# from schema import UserInput, Response
 
 load_dotenv()
 app = FastAPI()
 
 # Авторизация в сервисе GigaChat
+GIGACHAT_CREDENTIALS = os.environ.get("GIGACHAT_CREDENTIALS")
 
-CREDENTIALS = "NTlkY2MyZmItM2Q4ZC00ZWMzLWE2NjAtNTI3MzZhOTk2ZjQzOjVhZGJiZDQxLTc0YjAtNDQxNi04YjAzLTUxZDVmYTY4NTkwNw=="
+
 chat = GigaChat(
-    credentials=CREDENTIALS,
+    credentials=GIGACHAT_CREDENTIALS,
     model="GigaChat-Pro",
     verify_ssl_certs=True,
     scope="GIGACHAT_API_CORP",
