@@ -1,12 +1,14 @@
 import logging
 
 from flask import Flask
+from flask_cors import CORS
 from .config import Config
 from .gigachat import init_gigachat, init_google_serper
 
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
     app.config.from_object('api.Config')
     
     init_logging()
