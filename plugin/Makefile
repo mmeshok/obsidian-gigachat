@@ -1,12 +1,14 @@
+export BUILD_DIR=build/obsidian-gigachat-plugin
 include .env
 
 make_all: build deploy
 
 build: clean
-	mkdir -p build/obsidian-gigachat-plugin
+	mkdir -p ${BUILD_DIR}
 	cd src/ && npm install && npm run build
-	cp -R src/* build/obsidian-gigachat-plugin
-	touch build/obsidian-gigachat-plugin/.hotreload
+	cp src/main.js ${BUILD_DIR}
+	cp src/manifest.json ${BUILD_DIR}
+	touch ${BUILD_DIR}/.hotreload
 
 clean:
 	rm -rf build
