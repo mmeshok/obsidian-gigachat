@@ -19,7 +19,7 @@ export default class GigachatPlugin extends Plugin {
 		this.initRibbonActions()
 		this.initStatusBar()
 		this.initCommands()
-		await this.initGigachatClient()
+		this.initGigachatClient()
 	}
 
 	onunload() {
@@ -36,7 +36,7 @@ export default class GigachatPlugin extends Plugin {
 
 	initRibbonActions() {
 		const ribbonIconEl = this.addRibbonIcon('bot', 'Gigachat', (evt: MouseEvent) => {
-			new Notice('This is a notice!');
+			new ChatModal(this.app, this.client).open();
 		});
 		ribbonIconEl.addClass('my-plugin-ribbon-class');
 	}
@@ -47,6 +47,7 @@ export default class GigachatPlugin extends Plugin {
 	}
 
 	async initGigachatClient() {
+		console.log("d_info init")
 		this.client = new GigachatClient(this.settings);
 		const status = await this.client.healthCheckRequest();
 		if (status == 200) {
