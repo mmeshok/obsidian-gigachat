@@ -1,5 +1,7 @@
 # Obsidian plugin with gigachat support
 
+![](_assets/obsidian-gigachat-chat.png)
+
 ## Зависимости
 
 - node js
