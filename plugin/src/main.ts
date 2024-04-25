@@ -6,7 +6,7 @@ import { SampleModal } from 'ui/sample_modal';
 import { SettingsTab } from 'ui/settings_tab';
 
 const DEFAULT_SETTINGS: PluginSettingsRepository = {
-	apiToken: '',
+	apiToken: 'SADFhtKUinewfFREhFsdfwF',
 	backendHost: 'http://0.0.0.0:8080',
 }
 

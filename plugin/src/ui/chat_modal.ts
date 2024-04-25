@@ -39,11 +39,12 @@ export class ChatModal extends Modal {
             const view = this.app.workspace.getActiveViewOfType(
                 MarkdownView
             ) as MarkdownView;
-            const answer = await this.client.chatRequest(this.prompt_text);
+            
+            const answer = await this.client.chatRequest(this.prompt_table);
             if (answer) { 
                 this.prompt_table.push({
                     role: "assistant",
-                    content: answer.responce,
+                    content: answer.result,
                 });            
             }
 
@@ -67,12 +68,14 @@ export class ChatModal extends Modal {
                 cls: `chat-div ${x["role"]}`,
             });
             if (x["role"] === "assistant") {
-                await MarkdownRenderer.renderMarkdown(
-                    x["content"],
-                    div,
-                    "",
-                    view
-                );
+                if (x["content"] != undefined) {
+                    await MarkdownRenderer.render(this.app,
+                        "Ассистент: " + x["content"],
+                        div,
+                        "",
+                        view
+                    );
+                }
             } else {
                 if (Array.isArray(x["content"])) {
                     const content = x["content"][0];
@@ -80,17 +83,10 @@ export class ChatModal extends Modal {
                         div.createEl("p", {
                             text: content["text"],
                         });
-                    } else {
-                        const image = div.createEl("img", { cls: "image-modal-image" });
-                        image.setAttribute(
-                            'src',
-                            content["image_url"]["url"],
-                        );
                     }
-
                 } else {
                     div.createEl("p", {
-                        text: x["content"],
+                        text: "Пользователь: " + x["content"],
                     });
                 }
             }
@@ -141,10 +137,10 @@ export class ChatModal extends Modal {
         });
 
         const clear_button = button_container_2.createEl("button", {
-            text: "Clear",
+            text: "Отчистить",
         });
         const copy_button = button_container_2.createEl("button", {
-            text: "Copy conversation",
+            text: "Скопировать",
         });
 
         clear_button.addEventListener("click", () => {

@@ -13,13 +13,12 @@ export class GigachatClient {
     }
 
     chatRequest = async (
-		text: string,
+		promts: { [key: string]: any }[],
 	) => {
         const data = {
-            message: text,
+            promts_list: promts,
         };
         const responce = await axios.post(this.path("chat"), data);
-        console.log(responce.data);
         return responce.data;
     }
 

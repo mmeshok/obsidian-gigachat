@@ -7,7 +7,7 @@ mod = Blueprint('chat', __name__, url_prefix='/')
 
 @mod.route('/chat', methods=['POST'])
 def simple_chat():
-    promts = request.json.get('messages')
+    promts = request.json.get('promts_list')
     result = process_promt_list_chat(promts)
     return { 'result': result }, http_client.OK
 
@@ -16,4 +16,3 @@ def simple_chat():
 def chat_clear():
     # TODO:
     return '', http_client.OK
-
