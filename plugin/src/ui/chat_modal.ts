@@ -145,7 +145,7 @@ export class ChatModal extends Modal {
         });
 
         const clear_button = button_container_2.createEl("button", {
-            text: "Отчистить",
+            text: "Очистить",
         });
         const copy_button = button_container_2.createEl("button", {
             text: "Скопировать",
@@ -164,7 +164,7 @@ export class ChatModal extends Modal {
             this.prompt_table = [];
             this.clearModalContent();
             this.displayModalContent();
-            new Notice("История диалога отчищена");
+            new Notice("История диалога очищена");
         });
         copy_button.addEventListener("click", async () => {
             const conversation = this.prompt_table
