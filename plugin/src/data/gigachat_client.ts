@@ -40,4 +40,13 @@ export class GigachatClient {
         console.log(responce.data);
         return responce.data.result;
     }
+
+    async termsRequest(text: string) {
+        const data = {
+            text: text,
+        }
+        const responce = await axios.post(this.path("terms"), data)
+        console.log(responce.data)
+        return responce.data.result
+    }
 }
