@@ -24,11 +24,12 @@ def init_logging():
     
 
 def init_controllers(app: Flask):
-    from .controllers import root, chat, summary, terms
+    from .controllers import root, chat, summary, terms, roadmap
     api_v1(app, root.mod)
     api_v1(app, chat.mod)
     api_v1(app, summary.mod)
     api_v1(app, terms.mod)
+    api_v1(app, roadmap.mod)
 
 
 def api_v1(app: Flask, mod):

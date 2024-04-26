@@ -10,9 +10,3 @@ def simple_chat():
     promts = request.json.get('promts_list')
     result = process_promt_list_chat(promts)
     return { 'result': result }, http_client.OK
-
-
-@mod.route('/chat/clear', methods=['POST'])
-def chat_clear():
-    # TODO:
-    return '', http_client.OK

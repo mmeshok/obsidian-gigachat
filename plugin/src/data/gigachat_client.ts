@@ -31,4 +31,13 @@ export class GigachatClient {
     path(handle: string) {
         return this.host + "/" + handle;
     }
+
+    async roadmapRequest(topic: string) {
+        const data = {
+            topic: topic,
+        }
+        const responce = await axios.post(this.path("roadmap"), data);
+        console.log(responce.data);
+        return responce.data.result;
+    }
 }
