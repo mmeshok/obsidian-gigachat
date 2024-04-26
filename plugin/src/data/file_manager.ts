@@ -28,4 +28,18 @@ export class FileManager {
         console.log("create file" + filePath)
         fs.writeFileSync(filePath, content)
     }
+
+    currentActiveFile() {
+        const filePath = this.app.workspace.activeEditor?.file?.path
+        if (filePath == undefined)
+            return undefined
+        console.log(filePath)
+        const fileAbsolutePath = this.vaultPath() + "/" + filePath
+        console.log(fileAbsolutePath)
+        return fileAbsolutePath
+    }
+
+    readFile(filePath: string) {
+        return fs.readFileSync(filePath).toString()
+    }
 };

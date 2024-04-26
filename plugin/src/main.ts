@@ -4,6 +4,7 @@ import { FileManager } from 'data/file_manager';
 import { GigachatClient } from 'data/gigachat_client';
 import { RoadmapUsecase } from 'data/roadmap_usecase';
 import { PluginSettingsRepository } from 'data/settings_repository';
+import { TermsUsecase } from 'data/terms_usecase';
 import { Editor, MarkdownView, Notice, Plugin } from 'obsidian';
 import * as path from 'path';
 import { ChatModal } from 'ui/chat_modal';
@@ -25,6 +26,7 @@ export default class GigachatPlugin extends Plugin {
 	client: GigachatClient;
 	fileManager: FileManager;
 	roadmapUseCase: RoadmapUsecase;
+	termsUseCase: TermsUsecase;
 
 	async onload() {
 		await this.initSettings()
@@ -32,7 +34,7 @@ export default class GigachatPlugin extends Plugin {
 		this.initRibbonActions()
 		this.initStatusBar()
 		this.initCommands()
-		this.initGigachatClient()
+		this.initComponents()
 	}
 
 	onunload() {
@@ -53,7 +55,7 @@ export default class GigachatPlugin extends Plugin {
 
 	initRibbonActions() {
 		const ribbonIconEl = this.addRibbonIcon('bot', 'Gigachat', (evt: MouseEvent) => {
-			new ChatModal(this.app, this.client, this.roadmapUseCase).open();
+			new ChatModal(this.app, this.client, this.roadmapUseCase, this.termsUseCase).open();
 		});
 		ribbonIconEl.addClass('my-plugin-ribbon-class');
 	}
@@ -63,7 +65,7 @@ export default class GigachatPlugin extends Plugin {
 		statusBarItemEl.setText('Gigachat is running');
 	}
 
-	async initGigachatClient() {
+	async initComponents() {
 		console.log("d_info init")
 		this.client = new GigachatClient(this.settings);
 		const status = await this.client.healthCheckRequest();
@@ -73,14 +75,22 @@ export default class GigachatPlugin extends Plugin {
 			new Notice('Gigachat Server is shutdown (')
 		}
 		this.roadmapUseCase = new RoadmapUsecase(this.fileManager, this.client);
+		this.termsUseCase = new TermsUsecase(this.fileManager, this.client)
 	}
 
 	initCommands() {
 		this.addCommand({
-			id: 'open-gigachat-chat',
+			id: 'gigachat-open-chat',
 			name: 'Open Gigachat Assistant Chat',
 			callback: () => {
-				new ChatModal(this.app, this.client, this.roadmapUseCase).open();
+				new ChatModal(this.app, this.client, this.roadmapUseCase, this.termsUseCase).open();
+			}
+		});
+		this.addCommand({
+			id: 'gigachat-process-terms',
+			name: 'Process terms in current file',
+			callback: async () => {
+				await this.termsUseCase.execute();
 			}
 		});
 	}
