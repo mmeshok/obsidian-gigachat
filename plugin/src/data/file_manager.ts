@@ -11,23 +11,21 @@ export class FileManager {
         this.app = app;
     }
 
-    currentFilePath() {
-		const activeFile = this.app.workspace.getActiveFile();
-		//@ts-ignore
-		const vaultPath = activeFile?.vault.adapter.basePath;
-		const filePath = activeFile?.path;
-		return vaultPath + "/" + filePath
+    vaultPath() {
+        //@ts-ignore
+		return this.app.vault.adapter.basePath;
     }
 
-    dirPath(filePath: string) {
-        return path.dirname(filePath);
+    dirPath(name: string) {
+        return this.vaultPath() + "/" + name;
     }
 
     mkdir(dirPath: string) {
         fs.mkdirSync(dirPath);
     }
 
-    createFile(filePath: string, content: string) {
+    createFile(filePath: string, content: any) {
+        console.log("create file" + filePath)
         fs.writeFileSync(filePath, content)
     }
 };
