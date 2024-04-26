@@ -21,4 +21,4 @@ def stuff_summary(docs, checker: bool = True, max_checks: int = 1):
         checker_chain = LLMSummarizationCheckerChain.from_llm(
             get_llm(), max_checks=max_checks
         )
-        return checker_chain.invoke(summary)
+        return checker_chain.invoke(summary).content
