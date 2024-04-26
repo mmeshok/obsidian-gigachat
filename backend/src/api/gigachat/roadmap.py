@@ -97,7 +97,7 @@ def _create_sctructure(roadmap):
         split_id = roadmap.index(str(i))  # находим индекс номера пункта
         batch = roadmap[:split_id].splitlines()  # отделяем первый пукт
         structure[batch[0]] = (
-            "<br />" + "<br />".join(batch[1:]).strip()
+            "\n\n".join(batch[1:]).strip()
         )  # словарь header - пункт
         roadmap = roadmap[split_id:]
 
@@ -106,11 +106,8 @@ def _create_sctructure(roadmap):
     keys = list(structure.keys())
     for i in range(len(keys) - 1):
         structure[keys[i]] += (
-            "<br /><br />Следующий этап: [[" + list(structure.keys())[i + 1] + "]]"
+            "\n\nСледующий этап: [[" + list(structure.keys())[i + 1] + "]]"
         )
-
-    for k, v in structure.items():
-        structure[k] = v.replace("\n", "<br />")
 
     return structure
 

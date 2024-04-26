@@ -156,6 +156,9 @@ export class ChatModal extends Modal {
         const terms_button = button_container_2.createEl("button", {
             text: "Обработать термины",
         });
+        const summary_button = button_container_2.createEl("button", {
+            text: "Создать summary",
+        });
 
         clear_button.addEventListener("click", () => {
             this.prompt_table = [];
@@ -183,7 +186,7 @@ export class ChatModal extends Modal {
         });
         terms_button.addEventListener("click", () => {
             this.termsUseCase.execute();
-        });
+        });        
     }
 
     onOpen() {
