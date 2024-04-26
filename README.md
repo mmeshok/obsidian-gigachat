@@ -1,12 +1,11 @@
-# Obsidian plugin with gigachat support
+# Obsidian GigaChat assistant
+
+Плагин с GigaChat ассистентом для Obsidian, с функционалом по работе с конспектами.
 
 ![](plugin/_assets/obsidian-gigachat-chat.png)
 
-## Зависимости
+## Сборка и тестирование решения
 
-- node js
-- make - используется для сборки
+- [backend](backend/README.md): в рамках демо был развернут севис на хосте `http://51.250.13.246:80`. Работу ручек можно проверить через [jupyter notebook](backend/jupyter/backend-api.ipynb).
 
-## Сборка
-
-Собрать плагин можно через `make build`. В папке build/ появится папка с плагином, которую затем можно подложить в качестве плагина в obsidian [в соответствие с инструкцией](https://docs.obsidian.md/Plugins/Getting+started/Build+a+plugin#Step+3+Enable+the+plugin).
+- [plugin](plugin/README.md): скачать [последний релиз](https://github.com/mmeshok/obsidian-gigachat/releases) и положить локально в `obsidian` проект, адрес хоста нужно прописать в настройках плагина и после перезагрузить.
