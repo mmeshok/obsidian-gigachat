@@ -1,4 +1,5 @@
 import { GigachatClient } from "data/gigachat_client";
+import { RoadmapUsecase } from "data/roadmap_usecase";
 import { App, MarkdownRenderer, MarkdownView, Modal, Notice } from "obsidian";
 
 export class ChatModal extends Modal {
@@ -6,11 +7,13 @@ export class ChatModal extends Modal {
     prompt_table: { [key: string]: any }[] = [];
     client: GigachatClient;
     is_generating_answer: boolean;
+    roadMapUseCase: RoadmapUsecase;
 
-    constructor(app: App, client: GigachatClient) {
+    constructor(app: App, client: GigachatClient, roadMapUseCase: RoadmapUsecase) {
         super(app);
         this.client = client;
         this.is_generating_answer = false;
+        this.roadMapUseCase = roadMapUseCase;
     }
 
     clearModalContent() {
@@ -142,6 +145,9 @@ export class ChatModal extends Modal {
         const copy_button = button_container_2.createEl("button", {
             text: "Скопировать",
         });
+        const roadmap_button = button_container_2.createEl("button", {
+            text: "Создать Roadmap",
+        });
 
         clear_button.addEventListener("click", () => {
             this.prompt_table = [];
@@ -155,6 +161,15 @@ export class ChatModal extends Modal {
                 .join("\n\n");
             await navigator.clipboard.writeText(conversation);
             new Notice("Ответ скопирован в буфер обмена");
+        });
+        roadmap_button.addEventListener("click", async () => {
+            const value = input_field.value.trim();
+            if (value != "" && value != undefined) {
+                new Notice("Создание Roadmap");
+                await this.roadMapUseCase.execute(value);
+            } else {
+                new Notice("Введите запрос для создания Roadmap");
+            }
         });
     }
 

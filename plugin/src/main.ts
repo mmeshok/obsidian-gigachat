@@ -2,6 +2,7 @@
 import { dir } from 'console';
 import { FileManager } from 'data/file_manager';
 import { GigachatClient } from 'data/gigachat_client';
+import { RoadmapUsecase } from 'data/roadmap_usecase';
 import { PluginSettingsRepository } from 'data/settings_repository';
 import { Editor, MarkdownView, Notice, Plugin } from 'obsidian';
 import * as path from 'path';
@@ -23,6 +24,7 @@ export default class GigachatPlugin extends Plugin {
 	settings: PluginSettingsRepository;
 	client: GigachatClient;
 	fileManager: FileManager;
+	roadmapUseCase: RoadmapUsecase;
 
 	async onload() {
 		await this.initSettings()
@@ -51,7 +53,7 @@ export default class GigachatPlugin extends Plugin {
 
 	initRibbonActions() {
 		const ribbonIconEl = this.addRibbonIcon('bot', 'Gigachat', (evt: MouseEvent) => {
-			new ChatModal(this.app, this.client).open();
+			new ChatModal(this.app, this.client, this.roadmapUseCase).open();
 		});
 		ribbonIconEl.addClass('my-plugin-ribbon-class');
 	}
@@ -70,6 +72,7 @@ export default class GigachatPlugin extends Plugin {
 		} else {
 			new Notice('Gigachat Server is shutdown (')
 		}
+		this.roadmapUseCase = new RoadmapUsecase(this.fileManager, this.client);
 	}
 
 	initCommands() {
@@ -77,19 +80,7 @@ export default class GigachatPlugin extends Plugin {
 			id: 'open-gigachat-chat',
 			name: 'Open Gigachat Assistant Chat',
 			callback: () => {
-				new ChatModal(this.app, this.client).open();
-			}
-		});
-
-		this.addCommand({
-			id: 'open-gigachat-chat',
-			name: 'Build Roadmap',
-			callback: () => {
-				const filePath = this.fileManager.currentFilePath();
-				const dirPath = this.fileManager.dirPath(filePath);
-				this.fileManager.mkdir(dirPath + "/roadmap");
-				this.fileManager.createFile(dirPath  + "/roadmap/Android.md", "#Android");
-				this.fileManager.createFile(dirPath + "/roadmap/Kotlin.md", "#Kotlin");
+				new ChatModal(this.app, this.client, this.roadmapUseCase).open();
 			}
 		});
 	}
