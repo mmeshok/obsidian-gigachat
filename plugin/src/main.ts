@@ -15,6 +15,8 @@ const fs = require('fs');
 const DEFAULT_SETTINGS: PluginSettingsRepository = {
 	apiToken: 'SADFhtKUinewfFREhFsdfwF',
 	backendHost: 'http://0.0.0.0:8080',
+	summaryBool: true,
+	summaryChecks: 1,
 }
 
 export default class GigachatPlugin extends Plugin {
